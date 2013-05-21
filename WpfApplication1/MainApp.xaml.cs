@@ -33,6 +33,7 @@ namespace WpfApplication1
         {
             using (SkeletonFrame skf = e.OpenSkeletonFrame())
             {
+                #region basic skeleton process
                 if (skf == null)
                     return;
 
@@ -43,19 +44,22 @@ namespace WpfApplication1
                                          select s).FirstOrDefault();
                 if (user == null)
                     return;
+                #endregion
 
+                #region update gui
                 Joint righthand = user.Joints[JointType.HandRight];
                 rhand_x.Text = String.Format("右手 X:{0:0.0}", righthand.Position.X);
                 rhand_y.Text = String.Format("右手 Y:{0:0.0}", righthand.Position.Y);
                 rhand_z.Text = String.Format("右手 Z:{0:0.0}", righthand.Position.Z);
+                #endregion
 
                 NativeMethods.SendMouseInput(
                     (int)(righthand.Position.X * 1024),
                    -(int)(righthand.Position.Y * 768),
-                      (int)SystemParameters.PrimaryScreenWidth,
-                      (int)SystemParameters.PrimaryScreenHeight,
-                      false);
-
+                    (int)SystemParameters.PrimaryScreenWidth,
+                    (int)SystemParameters.PrimaryScreenHeight,
+                    false
+                );
             }
         }
         
